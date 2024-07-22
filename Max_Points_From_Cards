@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int maxScore(vector<int>& cardPoints, int k) {
+       // we first consider 1st k ele and then eleiminate one from left simul add from right and at end take MAX
+       int n = cardPoints.size();
+        int leftSum = 0, rightSum = 0;
+        
+        // Calculate the sum of the first k elements from the left
+        for (int i = 0; i < k; i++) {
+            leftSum += cardPoints[i];
+        }
+        
+        // Initialize the max score with the initial left sum
+        int maxScore = leftSum;
+        
+        // Use two pointers to move elements from the left to the right
+        for (int i = 0; i < k; i++) {
+            leftSum -= cardPoints[k - 1 - i]; // Remove element from the left side
+            rightSum += cardPoints[n - 1 - i]; // Add element from the right side
+            maxScore = max(maxScore, leftSum + rightSum);
+        }
+        
+        return maxScore;
+    }
+};
