@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int maxArea(vector<int>& height)
+    {
+        //2 pointer
+        //jya pointer chi kmi height tyache cases ELIMINATE kara 
+        //3 cases asu shktet , motha lahan same, sagle case mde <= ans yenar so beter ae ki KAMI HEIGHT cha pointer move hoil
+        int n=height.size();
+            
+        int left=0;
+        int right=n-1;
+        int maxi=0;
+        
+        while(left<right)
+        {
+            int lh=height[left];
+            int rh=height[right];
+            int min_height=min(lh,rh);
+            int len=right-left;
+            int curr_area=min_height*len;
+            
+            maxi=max(maxi,curr_area);
+            
+            //IMPORTANT
+            //move that pointer which is short
+            if(lh<rh) left++;
+            else right--;
+        }
+        
+        return maxi;
+    }
+};
