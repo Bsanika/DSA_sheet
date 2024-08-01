@@ -1,0 +1,49 @@
+string smallestWindow(string s, string p) {
+    vector<int> cur(26, 0);
+    
+    // Build the frequency map for string p
+    for (char c : p) {
+        cur[c - 'a']++;
+    }
+
+    int i = 0, j = 0, counter = p.size(), minstart = 0, minlen = INT_MAX;
+    int n = s.size();
+
+    while (j < n) {
+        // If current character is part of p, decrease the counter
+        if (cur[s[j] - 'a'] > 0) {
+            counter--;
+        }
+        
+        // Decrease the frequency of current character in the map
+        cur[s[j] - 'a']--;
+
+        // When a valid window is found
+        while (counter == 0) {
+            // Update the minimum length window
+            if (j - i + 1 < minlen) {
+                minstart = i;
+                minlen = j - i + 1;
+            }
+            
+            // Increase the frequency of the character at the start of the window
+            cur[s[i] - 'a']++;
+            // If it becomes a part of the needed characters, increase the counter
+            if (cur[s[i] - 'a'] > 0) {
+                counter++;
+            }
+            // Move the start of the window
+            i++;
+        }
+
+        // Move the end of the window
+        j++;
+    }
+
+    // If no valid window was found, return "-1"
+    if (minlen == INT_MAX) {
+        return "-1";
+    }
+    // Return the smallest window
+    return s.substr(minstart, minlen);
+}
